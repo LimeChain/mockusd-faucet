@@ -1,0 +1,6 @@
+{
+  "faucetContractAddress": {
+    "ropsten": "0x18B8cbfb3247ccA2785a0e4ca95004Ad6dA08855",
+    "goerli": "0xb77613E1fe043BbFc655580D754b4d24562fe4a3"
+  }
+}

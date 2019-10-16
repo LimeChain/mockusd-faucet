@@ -20,6 +20,7 @@
 	import Vue from 'vue';
 	import { ethers } from 'ethers';
 	import faucetAbi from './../assets/contract-interfaces/UsdTokenFaucet.json';
+	import constants from './../../config/constants.json';
 
 	export default Vue.extend({
 		name: "Faucet",
@@ -43,8 +44,10 @@
 			}
 
 			this.provider = new ethers.providers.Web3Provider(ethereum);
+			const network = await this.provider.getNetwork();
 
-			this.faucetContract = new ethers.Contract(process.env.VUE_APP_FAUCET_GOERLI_ADDRESS, faucetAbi, this.provider.getSigner());
+			// TODO: check if network is different than available ones
+			this.faucetContract = new ethers.Contract(constants.faucetContractAddress[network.name], faucetAbi, this.provider.getSigner());
 		},
 		methods: {
 			async sendTokens() {
