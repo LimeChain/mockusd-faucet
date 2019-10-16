@@ -1,10 +1,9 @@
 const etherlime = require('etherlime-lib');
-const UsdTokenFaucet = require('../build/UsdTokenFaucet.json');
 const UsdToken = require('../build/UsdToken.json');
+const UsdTokenFaucet = require('../build/UsdTokenFaucet.json');
 
 
 describe('Faucet', () => {
-    let owner = accounts[0];
     let george = accounts[1];
     let deployer;
     let usdToken;
@@ -29,17 +28,16 @@ describe('Faucet', () => {
     it('should load the Faucet', async () => {
         const uintMaxNum = ethers.constants.MaxUint256;
         await usdToken.mint(usdTokenFaucet.contractAddress, uintMaxNum);
-
         const faucetBalance = await usdToken.balanceOf(usdTokenFaucet.contractAddress);
 
-        assert(faucetBalance.eq(uintMaxNum));
+	    assert(faucetBalance.eq(uintMaxNum));
     });
 
     it('should send MockUsd Tokens to George', async () => {
         let balanceBefore = await usdToken.balanceOf(george.signer.address);
-
-        await usdTokenFaucet.sendTokens(george.signer.address);
-
+        let txGas = await usdTokenFaucet.sendTokens(george.signer.address, {
+	        gasLimit: 100000
+        });
         let balanceAfter = await usdToken.balanceOf(george.signer.address);
         assert(balanceAfter.eq(balanceBefore.add(tokensToSend)))
     });
